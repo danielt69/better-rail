@@ -1,3 +1,5 @@
+import { locales } from "expo-localization"
+
 const stations = [
   {
     id: "3700",
@@ -508,8 +510,13 @@ const stations = [
   },
 ]
 
-// We  only  support hebrew at the moment.
-const USER_LANGUAGE = "hebrew"
+let USER_LANGUAGE = "hebrew"
+const LOCALE = locales[0]
+
+if (LOCALE.startsWith("he")) USER_LANGUAGE = "hebrew"
+else if (LOCALE.startsWith("ar")) USER_LANGUAGE = "arabic"
+else if (LOCALE.startsWith("en")) USER_LANGUAGE = "english"
+
 const normalizeStationNames = stations
   .map((station) => ({ id: station.id, name: station[USER_LANGUAGE], image: station.image }))
   .sort((a, b) => a.name > b.name)

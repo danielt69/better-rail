@@ -9,7 +9,8 @@ import { PlannerScreenProps } from "../../navigators/main-navigator"
 import stations from "../../data/stations"
 import { formatRelative, differenceInMinutes } from "date-fns"
 import HapticFeedback from "react-native-haptic-feedback"
-import { he } from "date-fns/locale"
+import { dateLocale } from "../../i18n"
+import { locale } from "expo-localization"
 
 const now = new Date()
 const fontScale = PixelRatio.getFontScale()
@@ -91,7 +92,7 @@ export const PlannerScreen = observer(function PlannerScreen({ navigation }: Pla
   const formattedDate = React.useMemo(() => {
     if (routePlan.date) {
       if (differenceInMinutes(routePlan.date, now) === 0) return "עכשיו"
-      return formatRelative(routePlan.date, now, { locale: he })
+      return formatRelative(routePlan.date, now, { locale: dateLocale })
     }
   }, [routePlan.date])
 
@@ -156,9 +157,9 @@ export const PlannerScreen = observer(function PlannerScreen({ navigation }: Pla
           </TouchableOpacity>
         </View>
 
-        <Text preset="header" text="תכנון מסלול" style={{ marginBottom: 6 }} />
+        <Text preset="header" tx="plan.title" style={{ marginBottom: 6 }} />
 
-        <Text preset="fieldLabel" text="תחנת מוצא" style={{ marginBottom: spacing[1] }} />
+        <Text preset="fieldLabel" tx="plan.origin" style={{ marginBottom: spacing[1] }} />
         <Animated.View style={{ transform: [{ scale: stationCardScale }] }}>
           <StationCard
             name={originData?.name}
@@ -212,7 +213,7 @@ export const PlannerScreen = observer(function PlannerScreen({ navigation }: Pla
           onChange={onDateChange}
           onConfirm={handleConfirm}
           onCancel={() => setDatePickerVisibility(false)}
-          locale={"he_IL"}
+          locale={locale}
           minimumDate={now}
           minuteInterval={15}
           customHeaderIOS={() => null}
